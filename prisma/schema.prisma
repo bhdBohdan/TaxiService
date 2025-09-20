@@ -1,0 +1,119 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("POSTGRES_URL")
+}
+
+model addresses {
+  address_id                            Int     @id @default(autoincrement())
+  building                              Int?    @default(1) @db.SmallInt
+  street                                String? @default("Khreshchatyk") @db.VarChar(20)
+  city                                  String  @default("Kyiv") @db.VarChar(20)
+  latitude                              Float?  @default(50.450001)
+  longitude                             Float?  @default(30.523333)
+  trips_trips_endaddressidToaddresses   trips[] @relation("trips_endaddressidToaddresses")
+  trips_trips_startaddressidToaddresses trips[] @relation("trips_startaddressidToaddresses")
+
+  @@unique([building, street, city])
+}
+
+model cars {
+  car_id      Int      @id @default(autoincrement())
+  make        String?  @db.VarChar(20)
+  model       String?  @db.VarChar(20)
+  sign_number String?  @unique @db.VarChar(20)
+  driver_id   Int?
+  drivers     drivers? @relation(fields: [driver_id], references: [driver_id], onDelete: NoAction, onUpdate: NoAction)
+}
+
+/// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
+model drivers {
+  driver_id        Int       @id @default(autoincrement())
+  firstname        String    @db.VarChar(63)
+  lastname         String    @db.VarChar(63)
+  email            String?   @db.VarChar(127)
+  phonenumber      String?   @db.VarChar(31)
+  license          String    @db.VarChar(31)
+  registrationdate DateTime? @default(now()) @db.Timestamp(6)
+  updated_at       DateTime? @default(now()) @db.Timestamp(6)
+  cars             cars[]
+  reviews          reviews[]
+  trips            trips[]
+
+  @@index([email], map: "idx_drivers_email")
+  @@index([license], map: "idx_drivers_license", type: Hash)
+}
+
+/// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
+model passengers {
+  passenger_id     Int                @id @default(autoincrement())
+  firstname        String             @db.VarChar(63)
+  lastname         String             @db.VarChar(63)
+  email            String?            @db.VarChar(127)
+  phonenumber      String?            @db.VarChar(31)
+  registrationdate DateTime?          @default(now()) @db.Timestamp(6)
+  last_update      DateTime?          @default(now()) @db.Timestamp(6)
+  updated_at       DateTime?          @default(now()) @db.Timestamp(6)
+  payment          payment[]
+  reviews          reviews[]
+  trips_passengers trips_passengers[]
+
+  @@index([email], map: "idx_passengers_email")
+}
+
+/// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
+model payment {
+  payment_id     Int         @id @default(autoincrement())
+  trip_id        Int?
+  passenger_id   Int?
+  money_ammount  Decimal?    @db.Decimal(10, 2)
+  payment_method String?     @db.VarChar(20)
+  passengers     passengers? @relation(fields: [passenger_id], references: [passenger_id], onDelete: NoAction, onUpdate: NoAction, map: "fk_passenger")
+  trips          trips?      @relation(fields: [trip_id], references: [trip_id], onDelete: NoAction, onUpdate: NoAction, map: "fk_trip")
+
+  @@unique([trip_id, passenger_id], map: "no_repeat")
+}
+
+/// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
+model reviews {
+  review_id    Int        @id @default(autoincrement())
+  trip_id      Int?
+  passenger_id Int
+  driver_id    Int
+  content      String
+  stars        Int        @db.SmallInt
+  created_at   DateTime?  @default(now()) @db.Timestamp(6)
+  updated_at   DateTime?  @default(now()) @db.Timestamp(6)
+  drivers      drivers    @relation(fields: [driver_id], references: [driver_id], onDelete: NoAction, onUpdate: NoAction, map: "fk_driver")
+  passengers   passengers @relation(fields: [passenger_id], references: [passenger_id], onDelete: NoAction, onUpdate: NoAction, map: "fk_passenger")
+  trips        trips?     @relation(fields: [trip_id], references: [trip_id], onDelete: NoAction, onUpdate: NoAction, map: "fk_trip")
+
+  @@unique([trip_id, passenger_id], map: "no_repeat_reviews")
+}
+
+model trips {
+  trip_id                                   Int                @id @default(autoincrement())
+  driver_id                                 Int?
+  startaddressid                            Int
+  endaddressid                              Int
+  startdatetime                             DateTime           @default(now()) @db.Timestamp(6)
+  enddatetime                               DateTime?          @db.Timestamp(6)
+  payment                                   payment[]
+  reviews                                   reviews[]
+  drivers                                   drivers?           @relation(fields: [driver_id], references: [driver_id], onDelete: NoAction, onUpdate: NoAction)
+  addresses_trips_endaddressidToaddresses   addresses          @relation("trips_endaddressidToaddresses", fields: [endaddressid], references: [address_id], onDelete: NoAction, onUpdate: NoAction)
+  addresses_trips_startaddressidToaddresses addresses          @relation("trips_startaddressidToaddresses", fields: [startaddressid], references: [address_id], onDelete: NoAction, onUpdate: NoAction)
+  trips_passengers                          trips_passengers[]
+}
+
+model trips_passengers {
+  trip_id      Int
+  passenger_id Int
+  passengers   passengers @relation(fields: [passenger_id], references: [passenger_id], onDelete: NoAction, onUpdate: NoAction, map: "fk_passenger")
+  trips        trips      @relation(fields: [trip_id], references: [trip_id], onDelete: NoAction, onUpdate: NoAction, map: "fk_trip")
+
+  @@id([trip_id, passenger_id])
+}
