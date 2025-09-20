@@ -12,3 +12,10 @@ export interface Passenger {
   registrationdate: Date | null;
   updated_at: Date | null;
 }
+
+export interface PassengerDTO {
+  firstname: string;
+  lastname: string;
+  email: string | null;
+  phonenumber: string | null;
+}

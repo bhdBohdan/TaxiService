@@ -1,4 +1,4 @@
-import MainHeader from "@/components/mainHeader";
+import MainHeader from "@/components/CustomHeader";
 import Link from "next/link";
 import { Suspense } from "react";
 
@@ -13,7 +13,7 @@ interface Quiz {
 export default async function QuizzesPage() {
   return (
     <>
-      <MainHeader />
+      <MainHeader name="Home" route="no" />
 
       <main className="mt-8 px-10">
         <Suspense

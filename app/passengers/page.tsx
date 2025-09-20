@@ -1,6 +1,6 @@
 import { Passenger } from "@/common/interfaces/passengers.interface";
 import { getPassengers } from "@/common/prisma/passengers";
-import MainHeader from "@/components/mainHeader";
+import MainHeader from "@/components/CustomHeader";
 import PassengerItem from "@/components/passenger/PassengerItem";
 import Link from "next/link";
 import { Suspense } from "react";
@@ -34,7 +34,7 @@ export default async function PassengerssPage() {
 
   return (
     <>
-      <MainHeader />
+      <MainHeader name="Passengers" route="passengers" />
 
       <main className="mt-8 px-10">
         <Suspense
