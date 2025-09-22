@@ -2,41 +2,43 @@
 
 import { redirect } from "next/navigation";
 import { revalidatePath } from "next/cache";
-import { PassengerDTO } from "../interfaces/passengers.interface";
-import { create, deletePassenger, updateById } from "../prisma/passengers";
+import { DriverDTO } from "../interfaces/drivers.interface";
+import { create, deleteDriver, updateById } from "../prisma/drivers";
 
-export async function editPassengerAction(id: number, formData: FormData) {
+export async function editDriverAction(id: number, formData: FormData) {
   // Extract form fields safely
-  const passDTO: PassengerDTO = {
+  const driverDTO: DriverDTO = {
     firstname: formData.get("firstname")?.toString() || "",
     lastname: formData.get("lastname")?.toString() || "",
     email: formData.get("email")?.toString() || null,
     phonenumber: formData.get("phonenumber")?.toString() || null,
+    license: formData.get("license")?.toString() || "",
   };
 
   // Call your DB or API update function
-  await updateById(id, passDTO);
-  redirect("/passengers");
+  await updateById(id, driverDTO);
+  redirect("/drivers");
 }
 
-export async function createPassengerAction(formData: FormData) {
+export async function createDriverAction(formData: FormData) {
   // Extract form fields safely
-  const passDTO: PassengerDTO = {
+  const driverDTO: DriverDTO = {
     firstname: formData.get("firstname")?.toString() || "",
     lastname: formData.get("lastname")?.toString() || "",
     email: formData.get("email")?.toString() || null,
     phonenumber: formData.get("phonenumber")?.toString() || null,
+    license: formData.get("license")?.toString() || "",
   };
 
   // Call your DB or API update function
-  await create(passDTO);
-  redirect("/passengers");
+  await create(driverDTO);
+  redirect("/drivers");
 }
 
-export async function deletePassengerAction(id: number) {
+export async function deleteDriverAction(id: number) {
   // Extract form fields safely
 
   // Call your DB or API update function
-  await deletePassenger(id);
-  redirect("/passengers");
+  await deleteDriver(id);
+  redirect("/drivers");
 }

@@ -4,12 +4,12 @@ import { prisma } from "./prisma";
 export async function getPassengers() {
   //await new Promise((resolve) => setTimeout(resolve, 2000)); //delay for loading state
   //throw new Error("Failled");
-  return await prisma.passengers.findMany();
+  return await prisma.passengers.findMany({ where: { is_deleted: false } });
 }
 
 export async function getPassengerById(id: number) {
   return await prisma.passengers.findUnique({
-    where: { passenger_id: id },
+    where: { passenger_id: id, is_deleted: false },
     include: {
       trips_passengers: { include: { trips: true } },
     },
@@ -37,9 +37,10 @@ export async function create(payload: PassengerDTO) {
   return result;
 }
 
-export async function hardDelPass(id: number) {
-  const result = await prisma.passengers.delete({
+export async function deletePassenger(id: number) {
+  const result = prisma.passengers.update({
     where: { passenger_id: id },
+    data: { is_deleted: true },
   });
 
   return result;

@@ -42,9 +42,12 @@ model drivers {
   cars             cars[]
   reviews          reviews[]
   trips            trips[]
-
+  is_deleted       Boolean  @default(false)
+ 
+  @@index([is_deleted], map: "idx_del_driver")
   @@index([email], map: "idx_drivers_email")
   @@index([license], map: "idx_drivers_license", type: Hash)
+
 }
 
 /// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
@@ -55,12 +58,13 @@ model passengers {
   email            String?            @db.VarChar(127)
   phonenumber      String?            @db.VarChar(31)
   registrationdate DateTime?          @default(now()) @db.Timestamp(6)
-  last_update      DateTime?          @default(now()) @db.Timestamp(6)
   updated_at       DateTime?          @default(now()) @db.Timestamp(6)
   payment          payment[]
   reviews          reviews[]
   trips_passengers trips_passengers[]
-
+  is_deleted       Boolean  @default(false)
+ 
+  @@index([is_deleted], map: "idx_del_pass")
   @@index([email], map: "idx_passengers_email")
 }
 
@@ -107,6 +111,9 @@ model trips {
   addresses_trips_endaddressidToaddresses   addresses          @relation("trips_endaddressidToaddresses", fields: [endaddressid], references: [address_id], onDelete: NoAction, onUpdate: NoAction)
   addresses_trips_startaddressidToaddresses addresses          @relation("trips_startaddressidToaddresses", fields: [startaddressid], references: [address_id], onDelete: NoAction, onUpdate: NoAction)
   trips_passengers                          trips_passengers[]
+  is_deleted       Boolean  @default(false)
+ 
+  @@index([is_deleted], map: "idx_del_trip")
 }
 
 model trips_passengers {

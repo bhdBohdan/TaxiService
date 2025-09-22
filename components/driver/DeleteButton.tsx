@@ -1,11 +1,11 @@
 "use client";
 
-import { deletePassengerAction } from "@/common/actions/passenger.action";
+import { deleteDriverAction } from "@/common/actions/driver.action";
 
-export default function DeletePassengerButton({ id }: { id: string | number }) {
+export default function DeleteDriverButton({ id }: { id: string | number }) {
   async function handleDelete(formData: FormData) {
     if (window.confirm("Are you sure?")) {
-      await deletePassengerAction(+id);
+      await deleteDriverAction(+id);
     }
   }
 

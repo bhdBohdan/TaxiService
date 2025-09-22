@@ -1,11 +1,11 @@
 "use client";
 
-import { deletePassengerAction } from "@/common/actions/passenger.action";
+import { deleteTripAction } from "@/common/actions/trip.action";
 
-export default function DeletePassengerButton({ id }: { id: string | number }) {
+export default function DeleteTripButton({ id }: { id: string | number }) {
   async function handleDelete(formData: FormData) {
     if (window.confirm("Are you sure?")) {
-      await deletePassengerAction(+id);
+      await deleteTripAction(+id);
     }
   }
 

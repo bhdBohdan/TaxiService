@@ -1,30 +1,28 @@
 "use client";
 
 import {
-  createPassengerAction,
-  editPassengerAction,
-} from "@/common/actions/passenger.action";
-import {
-  Passenger,
-  PassengerDTO,
-} from "@/common/interfaces/passengers.interface";
+  createDriverAction,
+  editDriverAction,
+} from "@/common/actions/driver.action";
+import { Driver, DriverDTO } from "@/common/interfaces/drivers.interface";
 import { useState } from "react";
 
-interface PassengerFormProps {
-  passenger?: Passenger; // optional for edit mode
+interface DriverFormProps {
+  driver?: Driver; // optional for edit mode
 }
 
-export function PassengerForm({ passenger }: PassengerFormProps) {
-  const [firstname, setFirstname] = useState(passenger?.firstname || "");
-  const [lastname, setLastname] = useState(passenger?.lastname || "");
-  const [email, setEmail] = useState(passenger?.email || "");
-  const [phonenumber, setPhonenumber] = useState(passenger?.phonenumber || "");
+export function DriverForm({ driver }: DriverFormProps) {
+  const [firstname, setFirstname] = useState(driver?.firstname || "");
+  const [lastname, setLastname] = useState(driver?.lastname || "");
+  const [email, setEmail] = useState(driver?.email || "");
+  const [phonenumber, setPhonenumber] = useState(driver?.phonenumber || "");
+  const [license, setLicense] = useState(driver?.license || "");
 
   const action = async (formData: FormData) => {
-    if (passenger?.passenger_id) {
-      await editPassengerAction(passenger.passenger_id, formData);
+    if (driver?.driver_id) {
+      await editDriverAction(driver.driver_id, formData);
     } else {
-      await createPassengerAction(formData);
+      await createDriverAction(formData);
     }
   };
 
@@ -34,7 +32,7 @@ export function PassengerForm({ passenger }: PassengerFormProps) {
       className="max-w-md mx-auto bg-white p-6 rounded shadow space-y-4"
     >
       <h2 className="text-xl font-semibold">
-        {passenger ? "Edit Passenger" : "Add Passenger"}
+        {driver ? "Edit Driver" : "Add Driver"}
       </h2>
 
       <div>
@@ -89,11 +87,25 @@ export function PassengerForm({ passenger }: PassengerFormProps) {
         />
       </div>
 
+      <div>
+        <label className="block text-sm font-medium text-gray-700">
+          License Id
+        </label>
+        <input
+          type="text"
+          name="license"
+          value={license}
+          onChange={(e) => setLicense(e.target.value)}
+          required
+          className="mt-1 block w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+        />
+      </div>
+
       <button
         type="submit"
         className="w-full bg-blue-600 text-white py-2 px-4 rounded hover:bg-blue-700 transition"
       >
-        {passenger ? "Update Passenger" : "Add Passenger"}
+        {driver ? "Update Driver" : "Add Driver"}
       </button>
     </form>
   );

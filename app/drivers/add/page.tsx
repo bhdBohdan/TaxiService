@@ -1,10 +1,10 @@
 // app/passengers/[id]/page.tsx
-import { PassengerForm } from "@/components/passenger/PassengerForm";
+import { DriverForm } from "@/components/driver/DriverForm";
 
 export default async function AddPassengerPage() {
   return (
     <div>
-      <PassengerForm />
+      <DriverForm />
     </div>
   );
 }
