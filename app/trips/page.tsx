@@ -9,8 +9,8 @@ async function Trips() {
   const fetchedTrips: Trip[] = await getTrips();
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-      {fetchedTrips.map((elem) => (
-        <TripItem key={elem.trip_id} trip={elem} />
+      {fetchedTrips.map((elem, i) => (
+        <TripItem key={i} trip={elem} />
       ))}
     </div>
   );
