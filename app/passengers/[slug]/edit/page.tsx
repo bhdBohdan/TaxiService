@@ -11,13 +11,15 @@ export default async function EditPassengerPage({
   const passenger = await getPassengerById(+params.slug);
 
   if (!passenger) {
-    NotFound("No passenger like this");
-    return;
+    return (
+      <div className="max-w-xl mx-auto mt-10 p-6 bg-white rounded shadow">
+        <p>Error : Invalid Passenger </p>
+      </div>
+    );
   }
 
   return (
     <div>
-      <h1>Edit Passenger</h1>
       <PassengerForm passenger={passenger} />
     </div>
   );

@@ -4,7 +4,7 @@
 import { useRouter, useSearchParams } from "next/navigation";
 import { useDebouncedCallback } from "use-debounce";
 
-export default function DriverFilters() {
+export default function Filters({ route }: { route: string }) {
   const router = useRouter();
   const searchParams = useSearchParams();
 
@@ -23,7 +23,7 @@ export default function DriverFilters() {
         }
       });
 
-      router.replace(`/drivers?${params.toString()}`);
+      router.replace(`/${route}?${params.toString()}`);
     },
     300
   );
@@ -33,7 +33,7 @@ export default function DriverFilters() {
       {/* Search */}
       <input
         type="text"
-        placeholder="Search by name, email, phone, license..."
+        placeholder="Search by name, email, phone"
         defaultValue={searchParams.get("search")?.toString()}
         onChange={(e) => updateFilters({ search: e.target.value })}
         className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
@@ -52,13 +52,14 @@ export default function DriverFilters() {
         </select>
 
         <select
-          defaultValue={searchParams.get("sort")?.toString() || "name"}
+          defaultValue={searchParams.get("sort")?.toString() || "created"}
           onChange={(e) => updateFilters({ sort: e.target.value })}
           className="p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
         >
-          <option value="name">Sort by Name (A-Z)</option>
-          <option value="name_desc">Sort by Name (Z-A)</option>
-          <option value="created">Sort by Newest</option>
+          <option value="firstname">Sort by Name (A-Z)</option>
+          <option value="firstname_desc">Sort by Name (Z-A)</option>
+          <option value="created">Sort from Newest</option>
+          <option value="created_asc">Sort from Oldest</option>
         </select>
       </div>
     </div>

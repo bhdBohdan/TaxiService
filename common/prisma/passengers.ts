@@ -1,5 +1,68 @@
+import { Filters } from "../interfaces/filter.interface";
 import { PassengerDTO } from "../interfaces/passengers.interface";
 import { prisma } from "./prisma";
+
+export async function searchPassengers(filters: Filters) {
+  const {
+    search,
+    sort = "created",
+    page = 1,
+    limit = 12, // default val
+  } = filters;
+
+  const where: any = {};
+
+  // Text search across multiple fields
+  if (search) {
+    where.OR = [
+      { firstname: { contains: search, mode: "insensitive" } },
+      { lastname: { contains: search, mode: "insensitive" } },
+      { email: { contains: search, mode: "insensitive" } },
+      { phonenumber: { contains: search } },
+    ];
+  }
+
+  // Sort options
+  const orderBy: any = {};
+  switch (sort) {
+    case "firstname_desc":
+      orderBy.firstname = "desc";
+      break;
+    case "created":
+      orderBy.registrationdate = "desc";
+      break;
+    case "created_asc":
+      orderBy.registrationdate = "asc";
+      break;
+    case "firstname":
+    default:
+      orderBy.firstname = "asc";
+      break;
+  }
+
+  // Pagination calculations
+  const skip = (page - 1) * limit;
+
+  // Get passengers and total count in parallel
+  const [passengers, totalCount] = await Promise.all([
+    prisma.passengers.findMany({
+      where,
+      orderBy,
+      skip,
+      take: limit,
+    }),
+    prisma.passengers.count({ where }),
+  ]);
+
+  const totalPages = Math.ceil(totalCount / limit);
+
+  return {
+    passengers,
+    totalCount,
+    totalPages,
+    currentPage: page,
+  };
+}
 
 export async function getPassengers() {
   //await new Promise((resolve) => setTimeout(resolve, 2000)); //delay for loading state

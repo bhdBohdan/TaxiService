@@ -1,25 +1,26 @@
 "use client";
-import { usePathname } from "next/navigation";
 import Link from "next/link";
-import classes from "@/components/main-header/nav-link.module.css";
+import { usePathname } from "next/navigation";
 
-interface NavLinkProps {
+export default function NavLink({
+  href,
+  children,
+}: {
   href: string;
   children: React.ReactNode;
-}
-
-export default function NavLink({ href, children }: NavLinkProps) {
+}) {
   const path = usePathname();
+  const isActive =
+    (href === "/" && path === "/") || (href !== "/" && path.startsWith(href));
 
   return (
     <Link
       href={href}
-      className={
-        (href === "/" && path === "/") ||
-        (href !== "/" && path.startsWith(href))
-          ? "block hover:text-gray-400 font-bold text-stone-900"
-          : "block hover:text-gray-400 font-bold"
-      }
+      className={`block rounded-lg px-4 py-2 font-medium transition-colors ${
+        isActive
+          ? "bg-blue-500 text-white"
+          : " text-white hover:bg-gray-100 hover:text-gray-900"
+      }`}
     >
       {children}
     </Link>

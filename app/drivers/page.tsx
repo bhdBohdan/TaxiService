@@ -1,32 +1,17 @@
-import { Driver } from "@/common/interfaces/drivers.interface";
-import { getDrivers, searchDrivers } from "@/common/prisma/drivers";
+import { SearchProps, PageProps } from "@/common/interfaces/filter.interface";
+import { searchDrivers } from "@/common/prisma/drivers";
 import MainHeader from "@/components/CustomHeader";
 import DriverItem from "@/components/driver/DriverItem";
-import DriverFilters from "@/components/Filter";
+import Filters from "@/components/Filter";
 import Pagination from "@/components/Pagination";
-import DriverSearch from "@/components/SearchBar";
 import { Suspense } from "react";
 
-interface DriversPageProps {
-  searchParams: { [key: string]: string | string[] | undefined };
-}
-
-interface DriversProps {
-  searchParams: {
-    search?: string;
-    status?: string;
-    sort?: string;
-    page?: string;
-  };
-}
-
-async function Drivers({ searchParams }: DriversProps) {
+async function Drivers({ searchParams }: SearchProps) {
   const filters = {
     search: searchParams.search,
-    status: searchParams.status,
-    sort: searchParams.sort || "name",
+    sort: searchParams.sort || "firstname",
     page: searchParams.page ? parseInt(searchParams.page) : 1,
-    limit: 3,
+    limit: 12,
   };
 
   const { drivers, totalCount, totalPages, currentPage } = await searchDrivers(
@@ -36,13 +21,12 @@ async function Drivers({ searchParams }: DriversProps) {
   return (
     <>
       <div className="mb-6">
-        <DriverFilters />
+        <Filters route="drivers" />
       </div>
 
-      {/* Results Count */}
       <div className="mb-4 text-sm text-gray-600">
-        Showing {(currentPage - 1) * 3 + 1} to{" "}
-        {Math.min(currentPage * 3, totalCount)} of {totalCount} drivers
+        Showing {(currentPage - 1) * 12 + 1} to{" "}
+        {Math.min(currentPage * 12, totalCount)} of {totalCount} drivers
       </div>
 
       {/* Drivers Grid */}
@@ -55,7 +39,7 @@ async function Drivers({ searchParams }: DriversProps) {
       {/* No Results */}
       {drivers.length === 0 && (
         <p className="text-gray-500 col-span-full text-center py-8">
-          {filters.search || filters.status
+          {filters.search
             ? "No drivers found matching your criteria."
             : "No drivers available."}
         </p>
@@ -63,6 +47,7 @@ async function Drivers({ searchParams }: DriversProps) {
 
       {/* Pagination */}
       <Pagination
+        route="drivers"
         currentPage={currentPage}
         totalPages={totalPages}
         totalCount={totalCount}
@@ -71,7 +56,7 @@ async function Drivers({ searchParams }: DriversProps) {
   );
 }
 
-export default async function DriversPage({ searchParams }: DriversPageProps) {
+export default async function DriversPage({ searchParams }: PageProps) {
   return (
     <>
       <MainHeader name="Drivers" route="drivers" />

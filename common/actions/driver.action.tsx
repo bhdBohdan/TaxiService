@@ -16,8 +16,12 @@ export async function editDriverAction(id: number, formData: FormData) {
   };
 
   // Call your DB or API update function
-  await updateById(id, driverDTO);
-  redirect("/drivers");
+  try {
+    await updateById(id, driverDTO);
+    redirect("/drivers");
+  } catch (err: any) {
+    throw new Error(`Update failed: ${err.message}`);
+  }
 }
 
 export async function createDriverAction(formData: FormData) {
@@ -31,14 +35,23 @@ export async function createDriverAction(formData: FormData) {
   };
 
   // Call your DB or API update function
-  await create(driverDTO);
-  redirect("/drivers");
+  try {
+    await create(driverDTO);
+    redirect("/drivers");
+  } catch (err: any) {
+    throw new Error(`Creation failed: ${err.message}`);
+  }
 }
 
 export async function deleteDriverAction(id: number) {
   // Extract form fields safely
 
   // Call your DB or API update function
-  await deleteDriver(id);
-  redirect("/drivers");
+
+  try {
+    await deleteDriver(id);
+    redirect("/drivers");
+  } catch (err: any) {
+    throw new Error(`Deletion failed: ${err.message}`);
+  }
 }

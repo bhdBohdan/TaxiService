@@ -15,8 +15,13 @@ export async function editPassengerAction(id: number, formData: FormData) {
   };
 
   // Call your DB or API update function
-  await updateById(id, passDTO);
-  redirect("/passengers");
+
+  try {
+    await updateById(id, passDTO);
+    redirect("/passengers");
+  } catch (err: any) {
+    throw new Error(`Update failed: ${err.message}`);
+  }
 }
 
 export async function createPassengerAction(formData: FormData) {
@@ -29,14 +34,23 @@ export async function createPassengerAction(formData: FormData) {
   };
 
   // Call your DB or API update function
-  await create(passDTO);
-  redirect("/passengers");
+  try {
+    await create(passDTO);
+    redirect("/passengers");
+  } catch (err: any) {
+    throw new Error(`Creation failed: ${err.message}`);
+  }
 }
 
 export async function deletePassengerAction(id: number) {
   // Extract form fields safely
 
   // Call your DB or API update function
-  await deletePassenger(id);
-  redirect("/passengers");
+
+  try {
+    await deletePassenger(id);
+    redirect("/passengers");
+  } catch (err: any) {
+    throw new Error(`Deletion failed: ${err.message}`);
+  }
 }

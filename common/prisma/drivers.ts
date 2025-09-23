@@ -1,21 +1,13 @@
 import { DriverDTO } from "../interfaces/drivers.interface";
+import { Filters } from "../interfaces/filter.interface";
 import { prisma } from "./prisma";
 
-interface DriverFilters {
-  search?: string;
-  status?: string;
-  sort?: string;
-  page?: number;
-  limit?: number;
-}
-
-export async function searchDrivers(filters: DriverFilters) {
+export async function searchDrivers(filters: Filters) {
   const {
     search,
-    status,
-    sort = "name",
+    sort = "firstname",
     page = 1,
-    limit = 12, // Match grid layout (3x4, 4x3, etc.)
+    limit = 12, // default val
   } = filters;
 
   const where: any = {};
@@ -34,7 +26,7 @@ export async function searchDrivers(filters: DriverFilters) {
   // Sort options
   const orderBy: any = {};
   switch (sort) {
-    case "name_desc":
+    case "firstname_desc":
       orderBy.firstname = "desc";
       break;
     case "created":
@@ -43,7 +35,7 @@ export async function searchDrivers(filters: DriverFilters) {
     case "created_asc":
       orderBy.registrationdate = "asc";
       break;
-    case "name":
+    case "firstname":
     default:
       orderBy.firstname = "asc";
       break;

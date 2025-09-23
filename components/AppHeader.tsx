@@ -10,7 +10,7 @@ export default function AppHeader() {
         className="w-full bg-blue-300 h-16 flex items-center px-6 shadow-md"
       >
         <Image
-          src="/public/vercel.svg"
+          src="globe.svg"
           alt="Logo"
           className="h-10 w-10 object-contain mr-4"
           width={180}

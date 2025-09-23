@@ -1,15 +1,16 @@
-// components/driver/Pagination.tsx
 "use client";
 
 import { useRouter, useSearchParams } from "next/navigation";
 
 interface PaginationProps {
+  route: string;
   currentPage: number;
   totalPages: number;
   totalCount: number;
 }
 
 export default function Pagination({
+  route,
   currentPage,
   totalPages,
   totalCount,
@@ -20,7 +21,7 @@ export default function Pagination({
   const goToPage = (page: number) => {
     const params = new URLSearchParams(searchParams);
     params.set("page", page.toString());
-    router.replace(`/drivers?${params.toString()}`);
+    router.replace(`/${route}?${params.toString()}`);
   };
 
   if (totalPages <= 1) return null;
@@ -48,7 +49,7 @@ export default function Pagination({
   return (
     <div className="flex flex-col items-center gap-4 mt-8">
       <div className="text-sm text-gray-600">
-        Showing {(currentPage - 1) * 3 + 1} to{" "}
+        Showing {(currentPage - 1) * 12 + 1} to{" "}
         {Math.min(currentPage * 12, totalCount)} of {totalCount} drivers
       </div>
 
