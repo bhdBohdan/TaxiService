@@ -3,6 +3,7 @@ export interface Filters {
   sort?: string;
   page?: number;
   limit?: number;
+  isdeleted?: boolean;
 }
 
 export interface PageProps {
@@ -15,5 +16,6 @@ export interface SearchProps {
     status?: string;
     sort?: string;
     page?: string;
+    isdeleted?: string;
   };
 }

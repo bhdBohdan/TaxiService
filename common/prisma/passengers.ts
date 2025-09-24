@@ -6,6 +6,7 @@ export async function searchPassengers(filters: Filters) {
   const {
     search,
     sort = "created",
+    isdeleted,
     page = 1,
     limit = 12, // default val
   } = filters;
@@ -13,6 +14,7 @@ export async function searchPassengers(filters: Filters) {
   const where: any = {};
 
   // Text search across multiple fields
+  where.is_deleted = isdeleted;
   if (search) {
     where.OR = [
       { firstname: { contains: search, mode: "insensitive" } },

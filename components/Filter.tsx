@@ -41,15 +41,19 @@ export default function Filters({ route }: { route: string }) {
 
       {/* Filters Row */}
       <div className="flex gap-4 flex-wrap">
-        <select
-          defaultValue={searchParams.get("status")?.toString() || ""}
-          onChange={(e) => updateFilters({ status: e.target.value })}
-          className="p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-        >
-          <option value="">All Status</option>
-          <option value="active">Active</option>
-          <option value="inactive">Inactive</option>
-        </select>
+        <label className="flex items-center gap-2 cursor-pointer">
+          <input
+            onChange={(e) =>
+              updateFilters({
+                isdeleted: e.target.checked ? "true" : "",
+              })
+            }
+            type="checkbox"
+            name="isdeleted"
+            checked={searchParams.get("isdeleted") === "true"}
+          />
+          Show Deleted
+        </label>
 
         <select
           defaultValue={searchParams.get("sort")?.toString() || "created"}

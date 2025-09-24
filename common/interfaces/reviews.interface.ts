@@ -11,3 +11,11 @@ export interface Review {
   updated_at: Date | null;
   passengers: Passenger;
 }
+
+export interface ReviewDTO {
+  trip_id: number | null;
+  driver_id: number;
+  passenger_id: number;
+  content: string;
+  stars: number;
+}

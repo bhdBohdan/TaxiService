@@ -3,6 +3,7 @@
 //import QuizDetails from "@/componets/quizDetails";
 import { getTripById } from "@/common/prisma/trips";
 import DeleteTripButton from "@/components/trip/DeleteTrip";
+import { ReviewForm } from "@/components/trip/ReviewForm";
 
 import TripDetails from "@/components/trip/TripDetails";
 
@@ -40,6 +41,7 @@ export default async function TripDetailsPage({ params }: PassDetailsProps) {
         </Link> */}
         <DeleteTripButton id={trip?.trip_id} />
       </div>
+      <ReviewForm trip={trip} />
     </div>
   );
 }

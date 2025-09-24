@@ -6,11 +6,14 @@ export async function searchDrivers(filters: Filters) {
   const {
     search,
     sort = "firstname",
+    isdeleted,
     page = 1,
     limit = 12, // default val
   } = filters;
 
   const where: any = {};
+
+  where.is_deleted = isdeleted;
 
   // Text search across multiple fields
   if (search) {

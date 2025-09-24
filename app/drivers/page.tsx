@@ -7,10 +7,12 @@ import Pagination from "@/components/Pagination";
 import { Suspense } from "react";
 
 async function Drivers({ searchParams }: SearchProps) {
+  const params = await searchParams;
   const filters = {
-    search: searchParams.search,
-    sort: searchParams.sort || "firstname",
-    page: searchParams.page ? parseInt(searchParams.page) : 1,
+    search: params.search,
+    sort: params.sort || "firstname",
+    page: params.page ? parseInt(params.page) : 1,
+    isdeleted: params.isdeleted === "true",
     limit: 12,
   };
 

@@ -39,11 +39,13 @@ export async function create(payload: TripDTO) {
     data: { driver_id, endaddressid, startaddressid },
   });
 
-  passenger_ids.map(async (pass_id) => {
-    await prisma.trips_passengers.create({
-      data: { trip_id: result.trip_id, passenger_id: pass_id },
-    });
-  });
+  await Promise.all(
+    passenger_ids.map((pass_id) =>
+      prisma.trips_passengers.create({
+        data: { trip_id: result.trip_id, passenger_id: pass_id },
+      })
+    )
+  );
 
   return result;
 }

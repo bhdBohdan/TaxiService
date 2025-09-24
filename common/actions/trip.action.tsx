@@ -4,6 +4,8 @@ import { redirect } from "next/navigation";
 import { revalidatePath } from "next/cache";
 import { TripDTO } from "../interfaces/trips.interface";
 import { create, deleteTrip } from "../prisma/trips";
+import { createReview } from "../prisma/review";
+import { ReviewDTO } from "../interfaces/reviews.interface";
 
 export async function createTripAction(formData: FormData) {
   // Extract form fields safely
@@ -20,7 +22,12 @@ export async function createTripAction(formData: FormData) {
   };
 
   // Call your DB or API update function
-  await create(tripDTO);
+  try {
+    await create(tripDTO);
+  } catch (err: any) {
+    throw new Error(`creation failed: ${err.message}`);
+  }
+
   redirect("/trips");
 }
 
@@ -28,6 +35,29 @@ export async function deleteTripAction(id: number) {
   // Extract form fields safely
 
   // Call your DB or API update function
-  await deleteTrip(id);
+  try {
+    await deleteTrip(id);
+  } catch (err: any) {
+    throw new Error(`deletion failed: ${err.message}`);
+  }
+
+  redirect("/trips");
+}
+
+export async function createReviewAction(formData: FormData) {
+  const reviewDTO: ReviewDTO = {
+    trip_id: Number(formData.get("trip_id")),
+    driver_id: Number(formData.get("driver_id")),
+    passenger_id: Number(formData.get("passenger_id")),
+    content: String(formData.get("content") || ""),
+    stars: Number(formData.get("stars")),
+  };
+
+  try {
+    await createReview(reviewDTO);
+  } catch (err: any) {
+    throw new Error(`review creation failed: ${err.message}`);
+  }
+
   redirect("/trips");
 }
