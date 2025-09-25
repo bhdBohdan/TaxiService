@@ -3,8 +3,8 @@
 import { redirect } from "next/navigation";
 import { revalidatePath } from "next/cache";
 import { TripDTO } from "../interfaces/trips.interface";
-import { create, deleteTrip } from "../prisma/trips";
-import { createReview } from "../prisma/review";
+import { create, createRaw, deleteTrip, endTrip } from "../prisma/trips";
+import { createReview, createReviewRaw } from "../prisma/review";
 import { ReviewDTO } from "../interfaces/reviews.interface";
 
 export async function createTripAction(formData: FormData) {
@@ -23,7 +23,7 @@ export async function createTripAction(formData: FormData) {
 
   // Call your DB or API update function
   try {
-    await create(tripDTO);
+    await createRaw(tripDTO);
   } catch (err: any) {
     throw new Error(`creation failed: ${err.message}`);
   }
@@ -54,10 +54,20 @@ export async function createReviewAction(formData: FormData) {
   };
 
   try {
-    await createReview(reviewDTO);
+    await createReviewRaw(reviewDTO);
   } catch (err: any) {
     throw new Error(`review creation failed: ${err.message}`);
   }
 
   redirect("/trips");
+}
+
+export async function endTripAction(id: number) {
+  try {
+    await endTrip(id);
+  } catch (err: any) {
+    throw new Error(`deletion failed: ${err.message}`);
+  }
+
+  redirect(`/trips/${id}`);
 }

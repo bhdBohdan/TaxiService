@@ -1,4 +1,4 @@
-import { TripDTO } from "../interfaces/trips.interface";
+import { Trip, TripDTO } from "../interfaces/trips.interface";
 import { prisma } from "./prisma";
 
 export async function getTrips() {
@@ -50,10 +50,47 @@ export async function create(payload: TripDTO) {
   return result;
 }
 
+export async function createRaw(payload: TripDTO) {
+  const { driver_id, passenger_ids, endaddressid, startaddressid } = payload;
+
+  try {
+    await prisma.$transaction(async (tx) => {
+      const [trip] = await tx.$queryRaw<{ trip_id: number }[]>`
+    INSERT INTO trips (driver_id, endaddressid, startaddressid)
+    VALUES (${driver_id}, ${endaddressid}, ${startaddressid})
+    RETURNING trip_id;
+  `;
+
+      await Promise.all(
+        passenger_ids.map(
+          (pass_id) =>
+            tx.$executeRaw`
+        INSERT INTO trips_passengers (trip_id, passenger_id)
+        VALUES (${trip.trip_id}, ${pass_id});
+      `
+        )
+      );
+    });
+  } catch (error: any) {
+    throw new Error(
+      `Could not create trip. Transaction failed bcause: ${error?.message}`
+    );
+  }
+}
+
 export async function deleteTrip(id: number) {
   const result = prisma.trips.update({
     where: { trip_id: id },
     data: { is_deleted: true },
+  });
+
+  return result;
+}
+
+export async function endTrip(id: number) {
+  const result = prisma.trips.update({
+    where: { trip_id: id },
+    data: { enddatetime: new Date() },
   });
 
   return result;

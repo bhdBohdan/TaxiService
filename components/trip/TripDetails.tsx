@@ -11,11 +11,11 @@ export default function TripDetails({ trip }: { trip: TripsFull }) {
       <p className="text-gray-700 mb-4">EndId: {trip.endaddressid}</p>
 
       <p className="text-gray-700 mb-4">
-        Start at: {trip.startdatetime?.toISOString()}
+        Start at: {trip.startdatetime?.toUTCString()}
       </p>
 
       <p className="text-gray-700 mb-4">
-        End at: {trip.enddatetime?.toISOString()}
+        End at: {trip.enddatetime?.toLocaleString()}
       </p>
 
       <div className="text-gray-700 mb-4 p-6 bg-stone-200 rounded-b-sm">

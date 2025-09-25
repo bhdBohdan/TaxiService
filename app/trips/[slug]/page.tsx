@@ -2,7 +2,9 @@
 //import DeleteQuizButton from "@/componets/deleteButton";
 //import QuizDetails from "@/componets/quizDetails";
 import { getTripById } from "@/common/prisma/trips";
-import DeleteTripButton from "@/components/trip/DeleteTrip";
+import DeleteTripButton, {
+  EndTripBtn,
+} from "@/components/trip/DeleteAndEndTrip";
 import { ReviewForm } from "@/components/trip/ReviewForm";
 
 import TripDetails from "@/components/trip/TripDetails";
@@ -39,6 +41,7 @@ export default async function TripDetailsPage({ params }: PassDetailsProps) {
         >
           Edit
         </Link> */}
+        {!trip.enddatetime && <EndTripBtn id={trip?.trip_id} />}
         <DeleteTripButton id={trip?.trip_id} />
       </div>
       <ReviewForm trip={trip} />

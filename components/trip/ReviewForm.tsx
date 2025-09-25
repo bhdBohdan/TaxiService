@@ -39,7 +39,8 @@ export function ReviewForm({ trip }: ReviewFormProps) {
         <input
           name="driver_id"
           type="text"
-          value={driverid}
+          defaultValue={driverid}
+          readOnly
           required
           className="mt-1 block w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
         />
@@ -52,7 +53,8 @@ export function ReviewForm({ trip }: ReviewFormProps) {
         <input
           type="text"
           name="trip_id"
-          value={tripid}
+          defaultValue={tripid}
+          readOnly
           required
           className="mt-1 block w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
         />
