@@ -16,7 +16,7 @@ export default function NavLink({
   return (
     <Link
       href={href}
-      className={`block rounded-lg px-4 py-2 font-medium transition-colors ${
+      className={`block rounded-xs px-4 py-2 font-medium transition-colors w-[108%] ${
         isActive
           ? "bg-blue-500 text-white"
           : " text-white hover:bg-gray-100 hover:text-gray-900"

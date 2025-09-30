@@ -20,7 +20,7 @@ export default function SidebarLayout({
         className={`fixed top-0 left-0 h-full w-64 bg-sky-900 text-white p-4 transition-transform duration-300 z-30
           ${open ? "translate-x-0" : "-translate-x-full"} md:translate-x-0`}
       >
-        <nav className="mt-20 ml-5 space-y-2">
+        <nav onClick={() => setOpen(false)} className="mt-20 ml-5 space-y-2">
           <NavLink href="/">Home</NavLink>
           <NavLink href="/passengers">Passengers</NavLink>
           <NavLink href="/drivers">Drivers</NavLink>
