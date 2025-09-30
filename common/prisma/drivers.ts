@@ -40,7 +40,7 @@ export async function searchDrivers(filters: Filters) {
       break;
     case "firstname":
     default:
-      orderBy.registrationdate = "desc";
+      orderBy.registrationdate = "asc";
       break;
   }
 

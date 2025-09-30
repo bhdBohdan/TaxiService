@@ -38,7 +38,7 @@ export async function searchPassengers(filters: Filters) {
       break;
     case "firstname":
     default:
-      orderBy.firstname = "asc";
+      orderBy.registrationdate = "asc";
       break;
   }
 

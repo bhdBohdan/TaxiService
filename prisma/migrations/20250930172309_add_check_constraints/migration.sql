@@ -11,8 +11,8 @@ ALTER TABLE drivers
   ADD CONSTRAINT chk_license_length CHECK (char_length(license) >= 5);
 
 -- ensure trip times make sense
-ALTER TABLE trips
-  ADD CONSTRAINT chk_trip_time CHECK (enddatetime > startdatetime);
+-- ALTER TABLE trips
+--   ADD CONSTRAINT chk_trip_time CHECK (enddatetime > startdatetime);
 
 
 ALTER SEQUENCE addresses_address_id_seq RESTART WITH 100001;

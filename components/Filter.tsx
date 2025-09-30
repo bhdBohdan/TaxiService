@@ -56,14 +56,14 @@ export default function Filters({ route }: { route: string }) {
         </label>
 
         <select
-          defaultValue={searchParams.get("sort")?.toString() || "created"}
+          defaultValue={searchParams.get("sort")?.toString() || "created_asc"}
           onChange={(e) => updateFilters({ sort: e.target.value })}
           className="p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
         >
           <option value="firstname">Sort by Name (A-Z)</option>
           <option value="firstname_desc">Sort by Name (Z-A)</option>
-          <option value="created">Sort from Newest</option>
-          <option value="created_asc">Sort from Oldest</option>
+          <option value="created_asc">Sort from Newest</option>
+          <option value="created">Sort from Oldest</option>
         </select>
       </div>
     </div>
