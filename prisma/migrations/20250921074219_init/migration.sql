@@ -178,7 +178,7 @@ SELECT setval('reviews_review_id_seq', GREATEST((SELECT MAX(review_id) FROM revi
 SELECT setval('trips_trip_id_seq', GREATEST((SELECT MAX(trip_id) FROM trips) + 1, 100001), false);
 
 
---trigger 
+--triggers
 CREATE OR REPLACE FUNCTION refresh_last_update()
 RETURNS TRIGGER AS $$
 BEGIN
@@ -226,6 +226,30 @@ BEFORE INSERT ON payment
 FOR EACH ROW
 EXECUTE FUNCTION validate_payment_passenger();
 
+--dont add comment until end
+
+CREATE OR REPLACE FUNCTION check_trip_ended()
+RETURNS TRIGGER AS $$
+BEGIN
+    -- Перевіряємо, чи в trip для цього trip_id end_trip_time не NULL
+    IF NOT EXISTS (
+        SELECT 1 
+        FROM trips 
+        WHERE trip_id = NEW.trip_id 
+          AND enddatetime IS NOT NULL
+    ) THEN
+        RAISE EXCEPTION 'Cannot add review: trip % has not ended yet', NEW.trip_id;
+    END IF;
+
+    RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+
+CREATE TRIGGER trg_check_trip_ended
+BEFORE INSERT ON reviews
+FOR EACH ROW
+EXECUTE FUNCTION check_trip_ended();
 
 --Procedures
 CREATE OR REPLACE PROCEDURE insert_passenger(
