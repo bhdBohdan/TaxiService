@@ -1,5 +1,6 @@
 import Link from "next/link";
 import Image from "next/image";
+import myPng from "@/public/taxi.png";
 
 export default function AppHeader() {
   return (
@@ -10,7 +11,7 @@ export default function AppHeader() {
         className="w-full bg-blue-300 h-16 flex items-center px-6 shadow-md"
       >
         <Image
-          src="globe.svg"
+          src={myPng}
           alt="Logo"
           className="h-10 w-10 object-contain mr-4"
           width={180}

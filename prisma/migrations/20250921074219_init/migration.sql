@@ -295,7 +295,7 @@ RETURNS TABLE (
     firstname VARCHAR(63),
 	lastname VARCHAR(63),
 	email VARCHAR(127),
-	phinenumber VARCHAR(27)
+	phonenumber VARCHAR(27)
 )
 LANGUAGE SQL
 AS $$
@@ -328,30 +328,7 @@ BEGIN
 END;
 $$;
 
---MV
-CREATE MATERIALIZED VIEW m_view_cars AS SELECT * FROM cars;
 
-CREATE VIEW track_activity AS SELECT d.firstname as their_driver ,p.firstname, p.lastname, sa.street as start_street, ea.street as end_street
-FROM trips_passengers AS tp
-INNER JOIN passengers AS p 
-ON p.passenger_id = tp.passenger_id
-INNER JOIN trips AS t
-ON t.trip_id = tp.trip_id
-INNER JOIN addresses AS sa
-ON t.startaddressid = sa.address_id
-INNER JOIN addresses AS ea
-ON t.endaddressid = ea.address_id
-INNER JOIN drivers AS d
-ON d.driver_id = t.driver_id;
-
-CREATE OR REPLACE VIEW driver_avg_ratings AS
-SELECT 
-    d.driver_id,
-    d.firstname,
-	d.lastname,
-    get_driver_avg_rating(d.driver_id) AS avg_stars
-FROM 
-    drivers d;
 
 
 
