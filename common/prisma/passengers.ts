@@ -1,6 +1,7 @@
 import { Filters } from "../interfaces/filter.interface";
 import { PassengerDTO } from "../interfaces/passengers.interface";
 import { prisma } from "./prisma";
+import { unstable_noStore as noStore } from "next/cache";
 
 export async function searchPassengers(filters: Filters) {
   const {
@@ -37,6 +38,8 @@ export async function searchPassengers(filters: Filters) {
       orderBy.registrationdate = "asc";
       break;
     case "firstname":
+      orderBy.firstname = "asc";
+      break;
     default:
       orderBy.registrationdate = "asc";
       break;
@@ -73,6 +76,7 @@ export async function getPassengers() {
 }
 
 export async function getPassengerById(id: number) {
+  noStore();
   return await prisma.passengers.findUnique({
     where: { passenger_id: id, is_deleted: false },
     include: {
@@ -82,8 +86,6 @@ export async function getPassengerById(id: number) {
 }
 
 export async function updateById(id: number, payload: PassengerDTO) {
-  console.log(payload);
-
   const result = await prisma.passengers.update({
     where: {
       passenger_id: id,

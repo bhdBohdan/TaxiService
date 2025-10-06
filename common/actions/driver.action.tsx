@@ -18,6 +18,8 @@ export async function editDriverAction(id: number, formData: FormData) {
   // Call your DB or API update function
   try {
     await updateById(id, driverDTO);
+    revalidatePath(`/drivers/${id}`);
+    revalidatePath(`/drivers`);
   } catch (err: any) {
     throw new Error(`Update failed: ${err.message}`);
   }
@@ -37,6 +39,7 @@ export async function createDriverAction(formData: FormData) {
   // Call your DB or API update function
   try {
     await create(driverDTO);
+    revalidatePath(`/drivers`);
   } catch (err: any) {
     throw new Error(`Creation failed: ${err.message}`);
   }
@@ -50,6 +53,7 @@ export async function deleteDriverAction(id: number) {
 
   try {
     await deleteDriver(id);
+    revalidatePath(`/drivers`);
   } catch (err: any) {
     throw new Error(`Deletion failed: ${err.message}`);
   }

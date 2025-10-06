@@ -22,6 +22,8 @@ export function ReviewForm({ trip }: ReviewFormProps) {
   const [stars, setStars] = useState(0);
 
   const action = async (formData: FormData) => {
+    formData.append("trip_id", String(tripid));
+    formData.append("driver_id", String(driverid));
     await createReviewAction(formData);
   };
 
@@ -33,31 +35,9 @@ export function ReviewForm({ trip }: ReviewFormProps) {
       <h2 className="text-xl font-semibold">Add Review</h2>
 
       <div>
-        <label className="block text-sm font-medium text-gray-700">
-          driver id
+        <label className="block text-sm text-gray-900 font-bold">
+          Rate {trip?.drivers?.firstname} {trip?.drivers?.lastname}
         </label>
-        <input
-          name="driver_id"
-          type="text"
-          defaultValue={driverid}
-          readOnly
-          required
-          className="mt-1 block w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
-        />
-      </div>
-
-      <div>
-        <label className="block text-sm font-medium text-gray-700">
-          tripid
-        </label>
-        <input
-          type="text"
-          name="trip_id"
-          defaultValue={tripid}
-          readOnly
-          required
-          className="mt-1 block w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
-        />
       </div>
 
       <div>

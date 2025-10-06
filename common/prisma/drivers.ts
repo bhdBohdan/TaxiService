@@ -1,6 +1,7 @@
 import { DriverDTO } from "../interfaces/drivers.interface";
 import { Filters } from "../interfaces/filter.interface";
 import { prisma } from "./prisma";
+import { unstable_noStore as noStore } from "next/cache";
 
 export async function searchDrivers(filters: Filters) {
   const {
@@ -39,6 +40,9 @@ export async function searchDrivers(filters: Filters) {
       orderBy.registrationdate = "asc";
       break;
     case "firstname":
+      orderBy.firstname = "asc";
+      break;
+
     default:
       orderBy.registrationdate = "asc";
       break;
@@ -73,6 +77,7 @@ export async function getDrivers() {
 }
 
 export async function getDriverById(id: number) {
+  noStore();
   return await prisma.drivers.findUnique({
     where: { driver_id: id, is_deleted: false },
     include: {
@@ -83,6 +88,9 @@ export async function getDriverById(id: number) {
       },
     },
   });
+}
+export async function getDriversCars(id: number) {
+  return await prisma.cars.findMany({ where: { driver_id: id } });
 }
 
 export async function updateById(id: number, payload: DriverDTO) {

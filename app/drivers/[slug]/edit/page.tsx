@@ -6,9 +6,11 @@ import { DriverForm } from "@/components/driver/DriverForm";
 export default async function EditDriverPage({
   params,
 }: {
-  params: { slug: string };
+  params: Promise<{ slug: string }>;
 }) {
-  const driver = await getDriverById(+params.slug);
+  // Await the params Promise
+  const { slug } = await params;
+  const driver = await getDriverById(+slug);
 
   if (!driver) {
     NotFound("No driver like this");

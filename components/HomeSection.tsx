@@ -15,8 +15,8 @@ export default function HomeSection() {
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16">
-          <div className="bg-white rounded-lg shadow-md p-6 hover:shadow-lg transition-shadow">
+        <div className="grid grid-cols-1 lg:grid-cols-4 md:grid-cols-2 sm:grid-cols-1  gap-6 mb-14">
+          <div className="bg-white rounded-lg shadow-md p-6 hover:shadow-lg transition-shadow flex flex-col justify-between ">
             <div className="flex items-center mb-4">
               <div className="bg-blue-100 p-3 rounded-full mr-4">
                 <i className="fas fa-users text-blue-600 text-xl"></i>
@@ -49,7 +49,7 @@ export default function HomeSection() {
             </Link>
           </div>
 
-          <div className="bg-white rounded-lg shadow-md p-6 hover:shadow-lg transition-shadow">
+          <div className="bg-white rounded-lg shadow-md p-6 hover:shadow-lg transition-shadow flex flex-col justify-between ">
             <div className="flex items-center mb-4">
               <div className="bg-green-100 p-3 rounded-full mr-4">
                 <i className="fas fa-id-card-alt text-green-600 text-xl"></i>
@@ -82,7 +82,7 @@ export default function HomeSection() {
             </Link>
           </div>
 
-          <div className="bg-white rounded-lg shadow-md p-6 hover:shadow-lg transition-shadow">
+          <div className="bg-white rounded-lg shadow-md p-6 hover:shadow-lg transition-shadow flex flex-col justify-between ">
             <div className="flex items-center mb-4">
               <div className="bg-purple-100 p-3 rounded-full mr-4">
                 <i className="fas fa-route text-purple-600 text-xl"></i>
@@ -112,6 +112,38 @@ export default function HomeSection() {
               className="inline-block bg-purple-600 text-white px-4 py-2 rounded-md hover:bg-purple-700 transition-colors"
             >
               View Trips
+            </Link>
+          </div>
+
+          <div className="bg-white rounded-lg shadow-md p-6 hover:shadow-lg transition-shadow flex flex-col justify-between ">
+            <div className="flex items-center mb-4">
+              <div className="bg-green-100 p-3 rounded-full mr-4">
+                <i className="fas fa-id-card-alt text-green-600 text-xl"></i>
+              </div>
+              <h2 className="text-2xl font-bold text-gray-800">Drivers</h2>
+            </div>
+            <p className="text-gray-600 mb-4">
+              Maintain Cars roster with complete CRUD capabilities..
+            </p>
+            <ul className="text-gray-600 space-y-2 mb-6">
+              <li className="flex items-center">
+                <i className="fas fa-plus-circle text-green-500 mr-2"></i>
+                Register new cars
+              </li>
+              <li className="flex items-center">
+                <i className="fas fa-star text-yellow-500 mr-2"></i>
+                Add driver to them
+              </li>
+              <li className="flex items-center">
+                <i className="fas fa-filter text-purple-500 mr-2"></i>
+                Advanced filtering options
+              </li>
+            </ul>
+            <Link
+              href="/drivers"
+              className="inline-block bg-red-600 text-white px-4 py-2 rounded-md hover:bg-red-700 transition-colors"
+            >
+              Manage Cars
             </Link>
           </div>
         </div>

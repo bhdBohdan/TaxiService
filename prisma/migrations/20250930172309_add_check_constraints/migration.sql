@@ -10,6 +10,9 @@ ALTER TABLE reviews
 ALTER TABLE drivers
   ADD CONSTRAINT chk_license_length CHECK (char_length(license) >= 5);
 
+ALTER TABLE trips
+  ADD CONSTRAINT not_eq_addresses CHECK (startaddressid != endaddressid);
+
 -- ensure trip times make sense
 -- ALTER TABLE trips
 --   ADD CONSTRAINT chk_trip_time CHECK (enddatetime > startdatetime);

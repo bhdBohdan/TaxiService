@@ -25,6 +25,7 @@ export default function SidebarLayout({
           <NavLink href="/passengers">Passengers</NavLink>
           <NavLink href="/drivers">Drivers</NavLink>
           <NavLink href="/trips">Trips</NavLink>
+          <NavLink href="/cars">Cars</NavLink>
         </nav>
       </aside>
 

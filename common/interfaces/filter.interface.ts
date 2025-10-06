@@ -3,11 +3,12 @@ export interface Filters {
   sort?: string;
   page?: number;
   limit?: number;
+  make?: string;
   isdeleted?: boolean;
 }
 
 export interface PageProps {
-  searchParams: { [key: string]: string | string[] | undefined };
+  searchParams: Promise<SearchParams>;
 }
 
 export interface SearchProps {
@@ -17,5 +18,14 @@ export interface SearchProps {
     sort?: string;
     page?: string;
     isdeleted?: string;
+    make?: string;
   };
+}
+
+export interface SearchParams {
+  search?: string;
+  status?: string;
+  sort?: string;
+  page?: string;
+  make?: string;
 }

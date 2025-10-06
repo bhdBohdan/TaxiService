@@ -3,8 +3,7 @@
 export default function NotFound({ error }: any) {
   return (
     <main className="error">
-      <h1>not found wtf</h1>
-      <p>failed to create quiz.</p>
+      <h1 className="text-center flex justify-center">Not found O_o</h1>
     </main>
   );
 }

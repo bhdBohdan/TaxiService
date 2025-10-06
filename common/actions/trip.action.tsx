@@ -24,6 +24,7 @@ export async function createTripAction(formData: FormData) {
   // Call your DB or API update function
   try {
     await createRaw(tripDTO);
+    revalidatePath(`/trips`);
   } catch (err: any) {
     throw new Error(`creation failed: ${err.message}`);
   }
@@ -37,6 +38,7 @@ export async function deleteTripAction(id: number) {
   // Call your DB or API update function
   try {
     await deleteTrip(id);
+    revalidatePath(`/trips`);
   } catch (err: any) {
     throw new Error(`deletion failed: ${err.message}`);
   }
@@ -54,7 +56,10 @@ export async function createReviewAction(formData: FormData) {
   };
 
   try {
-    await createReviewRaw(reviewDTO);
+    await createReview(reviewDTO);
+    revalidatePath(`/trips`);
+
+    //await createReviewRaw(reviewDTO);
   } catch (err: any) {
     throw new Error(`review creation failed: ${err.message}`);
   }
@@ -65,6 +70,8 @@ export async function createReviewAction(formData: FormData) {
 export async function endTripAction(id: number) {
   try {
     await endTrip(id);
+    revalidatePath(`/trips`);
+    revalidatePath(`/trips/${id}`);
   } catch (err: any) {
     throw new Error(`deletion failed: ${err.message}`);
   }

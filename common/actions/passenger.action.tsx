@@ -18,10 +18,12 @@ export async function editPassengerAction(id: number, formData: FormData) {
 
   try {
     await updateById(id, passDTO);
+    revalidatePath(`/passengers/${id}`);
+    revalidatePath(`/passengers`);
   } catch (err: any) {
     throw new Error(`Update failed: ${err.message}`);
   }
-  redirect("/passengers");
+  redirect(`/passengers/${id}`);
 }
 
 export async function createPassengerAction(formData: FormData) {
@@ -36,6 +38,7 @@ export async function createPassengerAction(formData: FormData) {
   // Call your DB or API update function
   try {
     await create(passDTO);
+    revalidatePath(`/passengers`);
   } catch (err: any) {
     throw new Error(`Creation failed: ${err.message}`);
   }
@@ -50,6 +53,7 @@ export async function deletePassengerAction(id: number) {
 
   try {
     await deletePassenger(id);
+    revalidatePath(`/passengers`);
   } catch (err: any) {
     throw new Error(`Deletion failed: ${err.message}`);
   }

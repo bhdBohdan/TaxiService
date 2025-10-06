@@ -6,9 +6,10 @@ import NotFound from "@/app/not-found";
 export default async function EditPassengerPage({
   params,
 }: {
-  params: { slug: string };
+  params: Promise<{ slug: string }>;
 }) {
-  const passenger = await getPassengerById(+params.slug);
+  const { slug } = await params;
+  const passenger = await getPassengerById(+slug);
 
   if (!passenger) {
     return (

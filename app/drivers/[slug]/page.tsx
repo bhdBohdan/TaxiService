@@ -2,23 +2,25 @@
 //import DeleteQuizButton from "@/componets/deleteButton";
 //import QuizDetails from "@/componets/quizDetails";
 import { DriverFull } from "@/common/interfaces/drivers.interface";
-import { getDriverById } from "@/common/prisma/drivers";
+import { getDriverById, getDriversCars } from "@/common/prisma/drivers";
 import DeleteDriverButton from "@/components/driver/DeleteButton";
 import DriverDetails from "@/components/driver/DriverDetails";
 import Link from "next/link";
 import React from "react";
 
 export type DriverDetailsProps = {
-  params: {
+  params: Promise<{
     slug: string;
-  };
+  }>;
 };
 
 export default async function DriverDetailsPage({
   params,
 }: DriverDetailsProps) {
   const { slug } = await params;
+
   const driver = await getDriverById(+slug);
+  const cars = await getDriversCars(+slug);
 
   if (!driver) {
     return (
@@ -30,7 +32,7 @@ export default async function DriverDetailsPage({
 
   return (
     <div className="max-w-xl mx-auto mt-10 p-6 bg-white rounded shadow">
-      <DriverDetails driver={driver} />
+      <DriverDetails driver={driver} cars={cars} />
       <div className="flex justify-between w-full">
         <Link
           href={`${slug}/edit`}

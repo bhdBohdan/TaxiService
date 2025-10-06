@@ -1,14 +1,21 @@
 import { Trip, TripDTO } from "../interfaces/trips.interface";
 import { prisma } from "./prisma";
+import { unstable_noStore as noStore } from "next/cache";
 
 export async function getTrips() {
   return await prisma.trips.findMany({ where: { is_deleted: false } });
 }
 
 export async function getTripById(id: number) {
+  noStore();
   return await prisma.trips.findUnique({
     where: { trip_id: id, is_deleted: false },
-    include: { trips_passengers: { include: { passengers: true } } },
+    include: {
+      trips_passengers: { include: { passengers: true } },
+      drivers: true,
+      addresses_trips_startaddressidToaddresses: true,
+      addresses_trips_endaddressidToaddresses: true,
+    },
   });
 }
 

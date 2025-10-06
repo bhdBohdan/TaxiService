@@ -60,6 +60,7 @@ async function Passengers({ searchParams }: SearchProps) {
 export default async function PassengerssPage({ searchParams }: PageProps) {
   //const passengers = await getPassengers();
   //console.log(passengers);
+  const params = await searchParams;
 
   return (
     <>
@@ -73,7 +74,7 @@ export default async function PassengerssPage({ searchParams }: PageProps) {
             </p>
           }
         >
-          <Passengers searchParams={searchParams} />
+          <Passengers searchParams={params} />
         </Suspense>
       </main>
     </>

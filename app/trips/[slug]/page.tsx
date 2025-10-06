@@ -13,9 +13,9 @@ import Link from "next/link";
 import React from "react";
 
 export type PassDetailsProps = {
-  params: {
+  params: Promise<{
     slug: string;
-  };
+  }>;
 };
 
 export default async function TripDetailsPage({ params }: PassDetailsProps) {
